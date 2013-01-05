@@ -171,6 +171,28 @@ class Robot
     for script in scripts
       @loadFile path, script
 
+  # Public: Load scripts modules in the `hubot-scripts.json` file.
+  #
+  # Attempt to load the module names found in the hubot-script.json file
+  # and ignore those that are not actually module names.
+  #
+  # scripts - An Array of scripts to load.
+  #
+  # Returns nothing.
+  loadHubotScriptModules: (scripts) ->
+    @logger.debug "scripts #{scripts}"
+    for script in scripts
+      ext  = Path.extname file
+      unless ext in ['.coffee', '.js']
+        try
+          f = require.resolve script
+          filename = Path.basename f
+          dir = Path.dirname f
+          @logger.debug "Looking for #{filename} in #{dir}"
+          @loadFile dir, filename
+        catch err
+          @logger.debug "Could not find #{script} #{err}"
+
   # Setup the Connect server's defaults.
   #
   # Returns nothing.
