@@ -182,7 +182,7 @@ class Robot
   loadHubotScriptModules: (scripts) ->
     @logger.debug "scripts #{scripts}"
     for script in scripts
-      ext  = Path.extname file
+      ext  = Path.extname script
       unless ext in ['.coffee', '.js']
         try
           f = require.resolve script
