@@ -179,17 +179,15 @@ class Robot
   # scripts - An Array of scripts to load.
   #
   # Returns nothing.
-  loadHubotScriptModules: (scripts) ->
+  loadHubotScriptModules: (path, scripts) ->
     @logger.debug "scripts #{scripts}"
     for script in scripts
       ext  = Path.extname script
       unless ext in ['.coffee', '.js']
         try
-          f = require.resolve script
-          filename = Path.basename f
-          dir = Path.dirname f
-          @logger.debug "Looking for #{filename} in #{dir}"
-          @loadFile dir, filename
+          file = require.resolve Path.join(path,script)
+          require(file) @
+          @parseHelp "#{file}"
         catch err
           @logger.debug "Could not find #{script} #{err}"
 

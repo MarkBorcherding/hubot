@@ -101,7 +101,7 @@ else
           scripts = JSON.parse data
           scriptsPath = Path.resolve "node_modules", "hubot-scripts", "src", "scripts"
           robot.loadHubotScripts scriptsPath, scripts
-          robot.loadHubotScriptModules scripts
+          robot.loadHubotScriptModules Path.resolve("node_modules"), scripts
 
   robot.adapter.on 'connected', loadScripts
 
